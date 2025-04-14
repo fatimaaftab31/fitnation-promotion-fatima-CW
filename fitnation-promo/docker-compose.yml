@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  db_friend:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: friend_user
+      POSTGRES_PASSWORD: friend_pass
+      POSTGRES_DB: fitnation_db_friend
+    volumes:
+      - db_friend_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+  backend_friend:
+    build: ./backend
+    depends_on:
+      - db_friend
+    environment:
+      DB_HOST: db_friend
+      DB_NAME: fitnation_db_friend
+      DB_USER: friend_user
+      DB_PASS: friend_pass
+    ports:
+      - "8081:80"
+
+  frontend_friend:
+    build: ./frontend
+    ports:
+      - "8082:80"
+    depends_on:
+      - backend_friend
+
+volumes:
+  db_friend_data:
