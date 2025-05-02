@@ -1,5 +1,5 @@
 # Use official PHP image with Apache
-FROM php:8.1-apache
+FROM php:8.1-apache 
 
 # Install PostgreSQL PDO extension
 RUN apt-get update && apt-get install -y \
